@@ -9,6 +9,7 @@ class Kidofun:
         chromeOptions = webdriver.ChromeOptions()
         prefs = {"profile.managed_default_content_settings.images": 2}
         chromeOptions.add_experimental_option("prefs", prefs)
+        # chromeOptions.add_argument("--headless")
         self.driver = webdriver.Chrome(
             options=chromeOptions, executable_path=r"C:\\Users\\beroz\\Pictures\\chromedriver.exe")
         self.get_page_count()
@@ -28,7 +29,7 @@ class Kidofun:
     def get_event_links(self):
         driver = self.driver
         eventLinks = []
-        for page in range(1, self.page_count+1):
+        for page in range(1, self.page_count + 1):
             self.navigate_link(
                 "https://kido-fun.com/cocuk-etkinlikleri?p={}".format(page))
             eventBlock = driver.find_element_by_class_name("events-list")
@@ -80,7 +81,7 @@ class Kidofun:
                     'date-number').text
                 eventTime = DateClass.find_element_by_class_name(
                     'date-time').text
-                eventDate = datetime(2019, self.months[eventMonth], int(
+                eventDate = datetime(2020, self.months[eventMonth], int(
                     eventDay), int(eventTime[0:2], int(eventTime[3:5])))
                 eventPlace = LocationClass.find_element_by_class_name(
                     'venue-name').text
@@ -99,9 +100,9 @@ class Kidofun:
                     "category": eventCategory,
                     "description": eventDescription,
                     "image": eventImage,
-                    "age": eventAge,
-                    "link": eventLink,
-                    "price": eventPrice,
+                    "eventAge": eventAge,
+                    "eventLink": eventLink,
+                    "eventPrice": eventPrice,
                     "date": str(eventDate),
                     "kidoLink": link,
                     "place": eventPlace,
@@ -112,9 +113,11 @@ class Kidofun:
                 events.append(event)
             except:
                 pass
-        with open('data.txt', 'w') as outfile:
-            json.dump(events, outfile)
+        # with open('data.txt', 'w') as outfile:
+        #     json.dump(events, outfile)
+
+        return events
 
 
-a = Kidofun()
-print(a.get_attributes_of_event())
+# a = Kidofun()
+# print(a.get_attributes_of_event())
